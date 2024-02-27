@@ -47,9 +47,8 @@ async function retrieveStorage() {
     } catch (err) {
         console.log(err)
     }
-
-
-    return searchTerms
+    if(!searchTerms){return}
+    else { return searchTerms}
 };
 
 retrieveStorage();
