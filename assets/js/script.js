@@ -1,24 +1,27 @@
 const start = $('#submit');
-const search = $('#search');
-let lat = '';
-let lon = '';
-let city = '';
-const urlWeather = 'api.openweathermap.org/data/2.5/forecast?lat={' + lat + '}&lon={' + lon + '}&appid={979baed4769ff26eb4c2d6a4cb12cc90}';
-const urlGeocash = 'http://api.openweathermap.org/geo/1.0/direct?q={' + city + '}&limit={5}&appid={979baed4769ff26eb4c2d6a4cb12cc90}';
+const search = document.getElementById('search');
+var lat;
+var lon;
+var city;
+const urlWeather = 'api.openweathermap.org/data/2.5/forecast?lat='
+const urlGeocash = 'http://api.openweathermap.org/geo/1.0/direct?q='
+const weatherApiKey = '&appid=979baed4769ff26eb4c2d6a4cb12cc90';
+const geocashApiKey = '&limit=5&appid=fe28c6dbe1ce362b35e1b5d40fdbcab2';
+var urlWeatherApi;
 
-start.on('click', function (event) {
-    event.preventDefault();
+start.on('click', async function (event) {
+    city = search.value
+    const urlGeocashApi = urlGeocash + city + geocashApiKey
+    console.log(urlGeocashApi)
+    const geocashResponse = await fetch(urlGeocashApi);
+    const geocashData = await geocashResponse.json();
 
-    // city = search.val
-    console.log(search.form)
-    // fetch(urlGeocash)
-//     .then(function (response) {
-//         return response.json();
-//      })
-//      .then(function (data) {
-//          lat = data.lat;
-//          lon = data.lon;
-//      });
+    lat = geocashData[0].lat;
+    lon = geocashData[0].lon;
+    urlWeatherApi = urlWeather + lat + '&lon=' + lon + weatherApiKey;
+    console.log(urlWeatherApi);
+    
+    const weatherResponse = await fetch(urlWeatherApi);
 });
 
 
